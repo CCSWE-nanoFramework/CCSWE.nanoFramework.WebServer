@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "CCSWE.nanoFramework.WebServer", "CCSWE.nanoFramework.WebServer\CCSWE.nanoFramework.WebServer.nfproj", "{92D7EFE0-03FD-47FB-AFA4-6CEE89E2DD9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EBD4AC1A-AFE5-4D49-8361-881834469375}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F141B530-99B7-4A1C-B7BE-B6534385990E}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{45A6515F-288F-4138-BFA0-4010F8DDF9B4}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-solution.yml = .github\workflows\build-solution.yml
+		.github\config.yml = .github\config.yml
+		.github\workflows\pull-request-checks.yml = .github\workflows\pull-request-checks.yml
+		.github\workflows\update-dependencies.yml = .github\workflows\update-dependencies.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{D9BEB694-13DF-4E01-944D-00744D1FA294}"
+	ProjectSection(SolutionItems) = preProject
+		CCSWE.nanoFramework.WebServer.nuspec = CCSWE.nanoFramework.WebServer.nuspec
+		version.json = version.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92D7EFE0-03FD-47FB-AFA4-6CEE89E2DD9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D7EFE0-03FD-47FB-AFA4-6CEE89E2DD9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D7EFE0-03FD-47FB-AFA4-6CEE89E2DD9C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{92D7EFE0-03FD-47FB-AFA4-6CEE89E2DD9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D7EFE0-03FD-47FB-AFA4-6CEE89E2DD9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92D7EFE0-03FD-47FB-AFA4-6CEE89E2DD9C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F141B530-99B7-4A1C-B7BE-B6534385990E} = {EBD4AC1A-AFE5-4D49-8361-881834469375}
+		{45A6515F-288F-4138-BFA0-4010F8DDF9B4} = {EBD4AC1A-AFE5-4D49-8361-881834469375}
+		{D9BEB694-13DF-4E01-944D-00744D1FA294} = {EBD4AC1A-AFE5-4D49-8361-881834469375}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {426216F0-047A-4848-A094-74803EB86EFF}
+	EndGlobalSection
+EndGlobal
