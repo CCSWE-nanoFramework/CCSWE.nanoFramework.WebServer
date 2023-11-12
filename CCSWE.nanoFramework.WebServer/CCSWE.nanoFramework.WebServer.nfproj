@@ -22,9 +22,25 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Net\HttpListenerResponseExtensions.cs" />
+    <Compile Include="WebServer\Bootstrapper.cs" />
+    <Compile Include="WebServer\ConfigureWebServerOptions.cs" />
     <Compile Include="WebServer\ControllerBase.cs" />
     <Compile Include="Net\MimeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebServer\Evaluate\Authentication.cs" />
+    <Compile Include="WebServer\Evaluate\AuthenticationAttirbute.cs" />
+    <Compile Include="WebServer\Evaluate\AuthenticationType.cs" />
+    <Compile Include="WebServer\Evaluate\CaseSensitiveAttribute.cs" />
+    <Compile Include="WebServer\Evaluate\Header.cs" />
+    <Compile Include="WebServer\Evaluate\HttpProtocol.cs" />
+    <Compile Include="WebServer\Evaluate\MethodAttribute.cs" />
+    <Compile Include="WebServer\Evaluate\Route.cs" />
+    <Compile Include="WebServer\Evaluate\Services\IServer.cs" />
+    <Compile Include="WebServer\Evaluate\Services\Server.cs" />
+    <Compile Include="WebServer\Evaluate\UrlParameter.cs" />
+    <Compile Include="WebServer\Evaluate\WebServerEventArgs.cs" />
+    <Compile Include="WebServer\Evaluate\WebServerOptions.cs" />
+    <Compile Include="WebServer\WebServer.cs" />
     <Compile Include="WebServer\RouteAttribute.cs" />
     <Compile Include="WebServer\Routing\HttpDeleteAttribute.cs" />
     <Compile Include="WebServer\Routing\HttpHeadAttribute.cs" />
@@ -50,8 +66,14 @@
     <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
     </Reference>
+    <Reference Include="nanoFramework.DependencyInjection">
+      <HintPath>..\packages\nanoFramework.DependencyInjection.1.1.3\lib\nanoFramework.DependencyInjection.dll</HintPath>
+    </Reference>
     <Reference Include="nanoFramework.Json">
       <HintPath>..\packages\nanoFramework.Json.2.2.103\lib\nanoFramework.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.Logging">
+      <HintPath>..\packages\nanoFramework.Logging.1.1.74\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
       <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.15\lib\nanoFramework.Runtime.Events.dll</HintPath>
