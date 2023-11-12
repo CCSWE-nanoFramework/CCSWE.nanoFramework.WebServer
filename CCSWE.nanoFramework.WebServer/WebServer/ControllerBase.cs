@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using System.Net;
-using System.Text;
 using CCSWE.nanoFramework.Net;
-using nanoFramework.Json;
 
 namespace CCSWE.nanoFramework.WebServer
 {
@@ -11,78 +9,97 @@ namespace CCSWE.nanoFramework.WebServer
     /// </summary>
     public abstract class ControllerBase
     {
-        private const int BufferSize = 1024;
-
-        private static void WriteOutput(HttpListenerResponse response, object? body)
-        {
-            var bytes = Encoding.UTF8.GetBytes(body as string ?? JsonConvert.SerializeObject(body));
-
-            WriteOutput(response, bytes);
-        }
-
-        private static void WriteOutput(HttpListenerResponse response, byte[] bytes, string contentType = MimeType.Application.Json)
-        {
-            response.ContentLength64 = bytes.Length;
-            response.ContentType = contentType;
-            response.SendChunked = response.ContentLength64 > BufferSize; // Is this good?
-
-            for (var bytesSent = 0L; bytesSent < bytes.Length;)
-            {
-                var bytesToSend = bytes.Length - bytesSent;
-                bytesToSend = bytesToSend < BufferSize ? bytesToSend : BufferSize;
-
-                response.OutputStream.Write(bytes, (int)bytesSent, (int)bytesToSend);
-                bytesSent += bytesToSend;
-            }
-        }
-
-        private static void WriteOutput(HttpListenerResponse response, Stream stream, string contentType = MimeType.Application.Octet)
-        {
-            response.ContentLength64 = stream.Length;
-            response.ContentType = contentType;
-            response.SendChunked = response.ContentLength64 > BufferSize; // Is this good?
-
-            var buffer = new byte[BufferSize];
-            var bytesSent = 0L;
-            int bytesToSend;
-
-            while ((bytesToSend = stream.Read(buffer)) > 0)
-            {
-                response.OutputStream.Write(buffer, (int)bytesSent, bytesToSend);
-                bytesSent += bytesToSend;
-            }
-        }
-
-        protected static void StatusCode(HttpListenerResponse response, HttpStatusCode statusCode, object? body = null, string contentType = MimeType.Application.Json)
+        /// <summary>
+        /// Sets the a status code and writes <paramref name="body"/> to the output stream.
+        /// </summary>
+        /// <param name="response">The <see cref="HttpListenerResponse"/> to write to.</param>
+        /// <param name="body">The body content.</param>
+        /// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
+        /// <param name="contentType">The content type.</param>
+        /// <remarks>
+        /// If <paramref name="body"/> is an <see cref="object"/> it will be serialized as JSON.
+        /// If <paramref name="body"/> is a <see cref="byte"/>[] or <see cref="Stream"/> it will written as is.
+        /// </remarks>
+        protected static void StatusCode(HttpListenerResponse response, HttpStatusCode statusCode, object? body = null, string? contentType = null)
         {
             response.AddCors();
             response.StatusCode = (int)statusCode;
 
+            if (body is null)
+            {
+                return;
+            }
+
             switch (body)
             {
                 case byte[] bytes:
-                    WriteOutput(response, bytes, contentType);
+                {
+                    response.WriteOutput(bytes, contentType);
                     break;
+                }
                 case Stream stream:
-                    WriteOutput(response, stream);
+                {
+                    response.WriteOutput(stream, contentType);
                     break;
+                }
                 default:
-                    {
-                        if (body is not null)
-                        {
-                            WriteOutput(response, body);
-                        }
-
-                        break;
-                    }
+                {
+                    response.WriteOutput(body, contentType);
+                    break;
+                }
             }
         }
 
-        protected void Ok(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => StatusCode(response, HttpStatusCode.OK, body, contentType); // 200
+        /// <summary>
+        /// Sets the a status code to <see cref="HttpStatusCode.OK"/> and writes <paramref name="body"/> to the output stream.
+        /// </summary>
+        /// <param name="response">The <see cref="HttpListenerResponse"/> to write to.</param>
+        /// <param name="body">The body content.</param>
+        /// <param name="contentType">The content type.</param>
+        /// <remarks>
+        /// If <paramref name="body"/> is an <see cref="object"/> it will be serialized as JSON.
+        /// If <paramref name="body"/> is a <see cref="byte"/>[] or <see cref="Stream"/> it will written as is.
+        /// </remarks>
+        protected void Ok(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => 
+            StatusCode(response, HttpStatusCode.OK, body, contentType); // 200
 
-        protected void BadRequest(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => StatusCode(response, HttpStatusCode.BadRequest, body, contentType); // 400
-        protected void NotFound(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => StatusCode(response, HttpStatusCode.NotFound, body, contentType); // 404
+        /// <summary>
+        /// Sets the a status code to <see cref="HttpStatusCode.BadRequest"/> and writes <paramref name="body"/> to the output stream.
+        /// </summary>
+        /// <param name="response">The <see cref="HttpListenerResponse"/> to write to.</param>
+        /// <param name="body">The body content.</param>
+        /// <param name="contentType">The content type.</param>
+        /// <remarks>
+        /// If <paramref name="body"/> is an <see cref="object"/> it will be serialized as JSON.
+        /// If <paramref name="body"/> is a <see cref="byte"/>[] or <see cref="Stream"/> it will written as is.
+        /// </remarks>
+        protected void BadRequest(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => 
+            StatusCode(response, HttpStatusCode.BadRequest, body, contentType); // 400
 
-        protected void InternalServerError(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => StatusCode(response, HttpStatusCode.InternalServerError, body, contentType); // 500
+        /// <summary>
+        /// Sets the a status code to <see cref="HttpStatusCode.NotFound"/> and writes <paramref name="body"/> to the output stream.
+        /// </summary>
+        /// <param name="response">The <see cref="HttpListenerResponse"/> to write to.</param>
+        /// <param name="body">The body content.</param>
+        /// <param name="contentType">The content type.</param>
+        /// <remarks>
+        /// If <paramref name="body"/> is an <see cref="object"/> it will be serialized as JSON.
+        /// If <paramref name="body"/> is a <see cref="byte"/>[] or <see cref="Stream"/> it will written as is.
+        /// </remarks>
+        protected void NotFound(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => 
+            StatusCode(response, HttpStatusCode.NotFound, body, contentType); // 404
+
+        /// <summary>
+        /// Sets the a status code to <see cref="HttpStatusCode.InternalServerError"/> and writes <paramref name="body"/> to the output stream.
+        /// </summary>
+        /// <param name="response">The <see cref="HttpListenerResponse"/> to write to.</param>
+        /// <param name="body">The body content.</param>
+        /// <param name="contentType">The content type.</param>
+        /// <remarks>
+        /// If <paramref name="body"/> is an <see cref="object"/> it will be serialized as JSON.
+        /// If <paramref name="body"/> is a <see cref="byte"/>[] or <see cref="Stream"/> it will written as is.
+        /// </remarks>
+        protected void InternalServerError(HttpListenerResponse response, object? body = null, string contentType = MimeType.Application.Json) => 
+            StatusCode(response, HttpStatusCode.InternalServerError, body, contentType); // 500
     }
 }
