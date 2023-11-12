@@ -25,10 +25,21 @@
     <Compile Include="WebServer\ControllerBase.cs" />
     <Compile Include="Net\MimeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebServer\RouteAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpDeleteAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpHeadAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpOptionsAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpPatchAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpPutAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpPostAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpGetAttribute.cs" />
+    <Compile Include="WebServer\Routing\HttpMethodAttribute.cs" />
+    <Compile Include="WebServer\Routing\IActionHttpMethodProvider.cs" />
+    <Compile Include="WebServer\Routing\IRouteTemplateProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CCSWE.nanoFramework.Collections.Concurrent">
-      <HintPath>..\packages\CCSWE.nanoFramework.Collections.Concurrent.0.5.5\lib\CCSWE.nanoFramework.Collections.Concurrent.dll</HintPath>
+      <HintPath>..\packages\CCSWE.nanoFramework.Collections.Concurrent.0.5.7\lib\CCSWE.nanoFramework.Collections.Concurrent.dll</HintPath>
     </Reference>
     <Reference Include="CCSWE.nanoFramework.Core">
       <HintPath>..\packages\CCSWE.nanoFramework.Core.0.2.16\lib\CCSWE.nanoFramework.Core.dll</HintPath>
