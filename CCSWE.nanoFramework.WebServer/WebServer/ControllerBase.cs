@@ -9,6 +9,23 @@ namespace CCSWE.nanoFramework.WebServer
     /// </summary>
     public abstract class ControllerBase
     {
+        // TODO: Set Context when instantiating the controller
+
+        /// <summary>
+        /// Gets the <see cref="HttpListenerContext"/> for the executing action.
+        /// </summary>
+        public HttpListenerContext Context { get; internal set; } = default!;
+
+        /// <summary>
+        /// Gets the <see cref="HttpListenerRequest"/> for the executing action.
+        /// </summary>
+        public HttpListenerRequest Request => Context.Request;
+
+        /// <summary>
+        /// Gets the <see cref="HttpListenerResponse"/> for the executing action.
+        /// </summary>
+        public HttpListenerResponse Response => Context.Response;
+
         /// <summary>
         /// Sets the a status code and writes <paramref name="body"/> to the output stream.
         /// </summary>
