@@ -35,8 +35,8 @@
     <Compile Include="WebServer\Evaluate\HttpProtocol.cs" />
     <Compile Include="WebServer\Evaluate\MethodAttribute.cs" />
     <Compile Include="WebServer\Evaluate\Route.cs" />
-    <Compile Include="WebServer\Evaluate\Services\IServer.cs" />
-    <Compile Include="WebServer\Evaluate\Services\Server.cs" />
+    <Compile Include="WebServer\IWebServer.cs" />
+    <Compile Include="WebServer\Services\WebServerService.cs" />
     <Compile Include="WebServer\Evaluate\UrlParameter.cs" />
     <Compile Include="WebServer\Evaluate\WebServerEventArgs.cs" />
     <Compile Include="WebServer\Evaluate\WebServerOptions.cs" />
@@ -61,7 +61,7 @@
       <HintPath>..\packages\CCSWE.nanoFramework.Core.0.2.16\lib\CCSWE.nanoFramework.Core.dll</HintPath>
     </Reference>
     <Reference Include="CCSWE.nanoFramework.Threading">
-      <HintPath>..\packages\CCSWE.nanoFramework.Threading.0.3.9\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
+      <HintPath>..\packages\CCSWE.nanoFramework.Threading.0.3.10\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>

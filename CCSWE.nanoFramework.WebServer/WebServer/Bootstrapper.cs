@@ -1,6 +1,6 @@
-﻿using CCSWE.nanoFramework.WebServer.Evaluate.Services;
-using CCSWE.nanoFramework.WebServer.Evaluate;
+﻿using CCSWE.nanoFramework.WebServer.Evaluate;
 using Microsoft.Extensions.DependencyInjection;
+using CCSWE.nanoFramework.WebServer.Services;
 
 namespace CCSWE.nanoFramework.WebServer
 {
@@ -14,7 +14,7 @@ namespace CCSWE.nanoFramework.WebServer
         /// </summary>
         public static IServiceCollection AddWebServer(this IServiceCollection services, ConfigureWebServerOptions? configureOptions = null)
         {
-            services.AddSingleton(typeof(IServer), typeof(Server));
+            services.AddSingleton(typeof(IWebServer), typeof(WebServerService));
             var options = new WebServerOptions();
             configureOptions?.Invoke(options);
             services.AddSingleton(typeof(WebServerOptions), options);
