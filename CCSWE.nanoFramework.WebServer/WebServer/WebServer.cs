@@ -11,6 +11,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using CCSWE.nanoFramework.Threading.Internal;
 using CCSWE.nanoFramework.WebServer.Evaluate;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -46,6 +47,7 @@ namespace CCSWE.nanoFramework.WebServer
         private Thread _serverThread = null;
         private readonly ArrayList _callbackRoutes;
         private readonly HttpListener _listener;
+        private readonly ThreadPoolInternal _threadPool;
 
         private readonly ILogger _logger;
         private readonly IServiceProvider _serviceProvider;
@@ -179,9 +181,11 @@ namespace CCSWE.nanoFramework.WebServer
         /// <param name="controllers">Controllers to use with this web server.</param>
         public WebServer(int port, HttpProtocol protocol, Type[] controllers, ILogger logger, IServiceProvider serviceProvider)
         {
+            _callbackRoutes = new ArrayList();
             _logger = logger;
             _serviceProvider = serviceProvider;
-            _callbackRoutes = new ArrayList();
+            _threadPool = new ThreadPoolInternal(32, 32);
+            _threadPool.SetMinThreads(4);
 
             if (controllers != null)
             {
@@ -479,7 +483,8 @@ namespace CCSWE.nanoFramework.WebServer
                     return;
                 }
 
-                new Thread(() =>
+                // TODO: This should be a method and I should be passing the context...
+                _threadPool.QueueUserWorkItem(_ =>
                 {
                     bool isRoute = false;
                     string rawUrl = context.Request.RawUrl;
@@ -580,7 +585,7 @@ namespace CCSWE.nanoFramework.WebServer
                             context.Close();
                         }
                     }
-                }).Start();
+                });
 
             }
             if (_listener.IsListening)

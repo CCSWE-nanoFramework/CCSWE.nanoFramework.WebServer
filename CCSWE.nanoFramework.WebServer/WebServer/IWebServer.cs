@@ -1,17 +1,19 @@
 using System;
 
-namespace CCSWE.nanoFramework.WebServer.Evaluate.Services
+namespace CCSWE.nanoFramework.WebServer
 {
+    // TODO: Check docs... Implement in concrete WebServer?
+
     /// <summary>
     /// Web server with Controllers support
     /// </summary>
-    public interface IServer : IDisposable
+    public interface IWebServer : IDisposable
     {
         /// <summary>
         /// Starts web server.
         /// </summary>
         void Start();
-        
+
         /// <summary>
         /// Stops web server.
         /// </summary>

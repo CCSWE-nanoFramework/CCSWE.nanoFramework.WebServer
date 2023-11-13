@@ -35,8 +35,8 @@
     <Compile Include="WebServer\Evaluate\HttpProtocol.cs" />
     <Compile Include="WebServer\Evaluate\MethodAttribute.cs" />
     <Compile Include="WebServer\Evaluate\Route.cs" />
-    <Compile Include="WebServer\Evaluate\Services\IServer.cs" />
-    <Compile Include="WebServer\Evaluate\Services\Server.cs" />
+    <Compile Include="WebServer\IWebServer.cs" />
+    <Compile Include="WebServer\Services\WebServerService.cs" />
     <Compile Include="WebServer\Evaluate\UrlParameter.cs" />
     <Compile Include="WebServer\Evaluate\WebServerEventArgs.cs" />
     <Compile Include="WebServer\Evaluate\WebServerOptions.cs" />
