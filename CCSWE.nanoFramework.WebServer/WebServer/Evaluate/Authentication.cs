@@ -20,12 +20,12 @@ namespace CCSWE.nanoFramework.WebServer.Evaluate
         /// <summary>
         /// The network credential user and password
         /// </summary>
-        public NetworkCredential Credentials { get; internal set; } = null;
+        public NetworkCredential? Credentials { get; internal set; } = null;
 
         /// <summary>
         /// The API Key
         /// </summary>
-        public string ApiKey { get; internal set; } = null;
+        public string? ApiKey { get; internal set; } = null;
 
         public Authentication(NetworkCredential credential)
         {

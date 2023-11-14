@@ -6,7 +6,7 @@ namespace CCSWE.nanoFramework.WebServer.Routing
     /// Identifies an action that supports a given set of HTTP methods.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public abstract class HttpMethodAttribute : Attribute, IActionHttpMethodProvider, IRouteTemplateProvider
+    public abstract class HttpMethodAttribute : Attribute, IHttpMethodProvider, IRouteTemplateProvider
     {
         /// <summary>
         /// Creates a new <see cref="HttpMethodAttribute"/> with the given

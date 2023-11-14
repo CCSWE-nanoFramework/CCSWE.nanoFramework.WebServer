@@ -35,7 +35,7 @@ namespace CCSWE.nanoFramework.WebServer.Evaluate
         /// <summary>
         /// the authentication details
         /// </summary>
-        public Authentication Authentication { get; set; }
+        public Authentication? Authentication { get; set; }
 
         internal string[] RouteParts { get; set; }
         internal int[] RouteParamsIndexes { get; set; }

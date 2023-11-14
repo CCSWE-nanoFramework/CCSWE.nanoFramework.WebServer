@@ -3,7 +3,7 @@
     /// <summary>
     /// Interface that exposes a list of http methods that are supported by an provider.
     /// </summary>
-    public interface IActionHttpMethodProvider
+    public interface IHttpMethodProvider
     {
         /// <summary>
         /// The list of http methods this action provider supports.

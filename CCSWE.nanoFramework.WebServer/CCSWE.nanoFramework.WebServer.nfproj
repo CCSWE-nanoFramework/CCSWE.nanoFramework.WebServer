@@ -36,6 +36,7 @@
     <Compile Include="WebServer\Evaluate\MethodAttribute.cs" />
     <Compile Include="WebServer\Evaluate\Route.cs" />
     <Compile Include="WebServer\IWebServer.cs" />
+    <Compile Include="WebServer\Reflection\ReflectionHelper.cs" />
     <Compile Include="WebServer\Services\WebServerService.cs" />
     <Compile Include="WebServer\Evaluate\UrlParameter.cs" />
     <Compile Include="WebServer\Evaluate\WebServerEventArgs.cs" />
@@ -50,7 +51,7 @@
     <Compile Include="WebServer\Routing\HttpPostAttribute.cs" />
     <Compile Include="WebServer\Routing\HttpGetAttribute.cs" />
     <Compile Include="WebServer\Routing\HttpMethodAttribute.cs" />
-    <Compile Include="WebServer\Routing\IActionHttpMethodProvider.cs" />
+    <Compile Include="WebServer\Routing\IHttpMethodProvider.cs" />
     <Compile Include="WebServer\Routing\IRouteTemplateProvider.cs" />
   </ItemGroup>
   <ItemGroup>
