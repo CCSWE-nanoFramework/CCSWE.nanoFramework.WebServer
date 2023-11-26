@@ -62,7 +62,7 @@
       <HintPath>..\packages\CCSWE.nanoFramework.Core.0.2.16\lib\CCSWE.nanoFramework.Core.dll</HintPath>
     </Reference>
     <Reference Include="CCSWE.nanoFramework.Threading">
-      <HintPath>..\packages\CCSWE.nanoFramework.Threading.0.3.10\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
+      <HintPath>..\packages\CCSWE.nanoFramework.Threading.0.3.19\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
@@ -74,7 +74,7 @@
       <HintPath>..\packages\nanoFramework.Json.2.2.103\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging">
-      <HintPath>..\packages\nanoFramework.Logging.1.1.74\lib\nanoFramework.Logging.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.Logging.1.1.76\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
       <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.15\lib\nanoFramework.Runtime.Events.dll</HintPath>
