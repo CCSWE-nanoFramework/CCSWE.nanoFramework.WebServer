@@ -19,7 +19,7 @@
     <dependencies>
       <dependency id="CCSWE.nanoFramework.Collections.Concurrent" version="0.5.12" />
       <dependency id="CCSWE.nanoFramework.Core" version="0.2.25" />
-      <dependency id="CCSWE.nanoFramework.Threading" version="0.3.29" />
+      <dependency id="CCSWE.nanoFramework.Threading" version="0.3.30" />
       <dependency id="nanoFramework.CoreLibrary" version="1.15.5" />
       <dependency id="nanoFramework.Json" version="2.2.113" />
       <dependency id="nanoFramework.Runtime.Events" version="1.11.15" />
