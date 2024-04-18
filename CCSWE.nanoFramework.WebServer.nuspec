@@ -17,9 +17,9 @@
     <copyright>Copyright (c) Cory Charlton</copyright>
     <tags>nanoFramework C# csharp netmf netnf ccswe web server http</tags>
     <dependencies>
-      <dependency id="CCSWE.nanoFramework.Collections.Concurrent" version="0.5.18" />
+      <dependency id="CCSWE.nanoFramework.Collections.Concurrent" version="0.5.19" />
       <dependency id="CCSWE.nanoFramework.Core" version="0.2.31" />
-      <dependency id="CCSWE.nanoFramework.Threading" version="0.3.38" />
+      <dependency id="CCSWE.nanoFramework.Threading" version="0.3.39" />
       <dependency id="nanoFramework.CoreLibrary" version="1.15.5" />
       <dependency id="nanoFramework.Json" version="2.2.117" />
       <dependency id="nanoFramework.Runtime.Events" version="1.11.15" />
