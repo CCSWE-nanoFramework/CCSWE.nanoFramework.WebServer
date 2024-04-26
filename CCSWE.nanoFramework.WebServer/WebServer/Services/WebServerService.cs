@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Security;
 using CCSWE.nanoFramework.WebServer.Evaluate;
 using Microsoft.Extensions.Logging;
 
@@ -28,19 +29,31 @@ namespace CCSWE.nanoFramework.WebServer.Services
                 controllers = (Type[])_options.Controllers.ToArray(typeof(Type));
 
             _webServer = new WebServer(_options.Port, _options.Protocol, controllers, _logger, _serviceProvider);
+
+            if (_options.Certificate is not null)
+            {
+                _webServer.HttpsCert = _options.Certificate;
+                _webServer.SslProtocols = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12;
+            }
         }
 
         /// <inheritdoc />
         public void Start()
         {
-            bool success = _webServer.Start();
-            _logger.LogDebug($@"WebServer started: {success}");
+            var started = _webServer is not null && _webServer.Start();
+            
+            _logger.LogDebug($@"WebServer started: {started}");
         }
 
         /// <inheritdoc />
         public void Stop()
         {
-            _webServer.Stop();
+            // Nullable<T> is not supported
+            if (_webServer is not null)
+            {
+                _webServer.Stop();
+            }
+
             _logger.LogDebug("WebServer stopped");
         }
 
@@ -48,6 +61,7 @@ namespace CCSWE.nanoFramework.WebServer.Services
         {
             if (_webServer is not null)
             {
+                // Nullable<T> is not supported
                 _webServer.Dispose();
             }
         }

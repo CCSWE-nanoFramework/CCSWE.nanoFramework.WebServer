@@ -9,7 +9,6 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
 using CCSWE.nanoFramework.Threading.Internal;
 using CCSWE.nanoFramework.WebServer.Evaluate;
@@ -39,12 +38,10 @@ namespace CCSWE.nanoFramework.WebServer
         /// </summary>
         public const char ParamEqual = '=';
 
-        private const int MaxSizeBuffer = 1024;
-
         #region internal objects
 
-        private bool _cancel = false;
-        private Thread _serverThread = null;
+        private bool _cancel;
+        private Thread? _serverThread;
         private readonly ArrayList _callbackRoutes;
         private readonly HttpListener _listener;
         private readonly ThreadPoolInternal _threadPool;
@@ -89,12 +86,12 @@ namespace CCSWE.nanoFramework.WebServer
         /// <summary>
         /// Network credential used for default user:password couple during basic authentication
         /// </summary>
-        public NetworkCredential Credential { get; set; }
+        public NetworkCredential? Credential { get; set; }
 
         /// <summary>
         /// Default APiKey to be used for authentication when no key is specified in the attribute
         /// </summary>
-        public string ApiKey { get; set; }
+        public string? ApiKey { get; set; }
 
         #endregion
 
@@ -179,7 +176,7 @@ namespace CCSWE.nanoFramework.WebServer
         /// <param name="port">Port number to listen on.</param>
         /// <param name="protocol"><see cref="HttpProtocol"/> version to use with web server.</param>
         /// <param name="controllers">Controllers to use with this web server.</param>
-        public WebServer(int port, HttpProtocol protocol, Type[] controllers, ILogger logger, IServiceProvider serviceProvider)
+        public WebServer(int port, HttpProtocol protocol, Type[]? controllers, ILogger logger, IServiceProvider serviceProvider)
         {
             _callbackRoutes = new ArrayList();
             _logger = logger;
@@ -187,38 +184,62 @@ namespace CCSWE.nanoFramework.WebServer
             _threadPool = new ThreadPoolInternal(32, 32);
             _threadPool.SetMinThreads(4);
 
+            AddControllersOld(controllers);
+
+            Protocol = protocol;
+            Port = port;
+            string prefix = Protocol == HttpProtocol.Http ? "http" : "https";
+            _listener = new HttpListener(prefix, port);
+            _logger.LogDebug("Web server started on port " + port.ToString());
+        }
+
+        private void AddControllers(Type[]? controllers)
+        {
+            if (controllers is null)
+            {
+                return;
+            }
+
+
+        }
+
+        private void AddControllersOld(Type[]? controllers)
+        {
             if (controllers != null)
             {
                 foreach (var controller in controllers)
                 {
-                    var controlAttribs = controller.GetCustomAttributes(true);
-                    Authentication authentication = null;
-                    foreach (var ctrlAttrib in controlAttribs)
+                    Authentication? authentication = null;
+
+                    var controllerAttributes = controller.GetCustomAttributes(true);
+                    foreach (var controllerAttribute in controllerAttributes)
                     {
-                        if (typeof(AuthenticationAttribute) == ctrlAttrib.GetType())
+                        if (controllerAttribute is not AuthenticationAttribute authenticationAttribute)
                         {
-                            var strAuth = ((AuthenticationAttribute)ctrlAttrib).AuthenticationMethod;
-                            // We do support only None, Basic and ApiKey, raising an exception if this doesn't start by any
-                            authentication = ExtractAuthentication(strAuth);
+                            continue;
                         }
+
+                        authentication = ExtractAuthentication(authenticationAttribute.AuthenticationMethod);
                     }
 
-                    var functions = controller.GetMethods();
-                    foreach (var func in functions)
+                    var methods = controller.GetMethods();
+                    foreach (var method in methods)
                     {
-                        var attributes = func.GetCustomAttributes(true);
-                        RouteCallback routeCallback = null;
-                        foreach (var attrib in attributes)
+                        RouteCallback? routeCallback = null;
+
+                        var methodAttributes = method.GetCustomAttributes(true);
+                        foreach (var methodAttribute in methodAttributes)
                         {
-                            if (typeof(RouteAttribute) == attrib.GetType())
+                            if (typeof(RouteAttribute) == methodAttribute.GetType())
                             {
                                 routeCallback = new RouteCallback();
-                                routeCallback.Route = ((RouteAttribute)attrib).Template;
+                                routeCallback.Route = ((RouteAttribute)methodAttribute).Template;
                                 routeCallback.CaseSensitive = false;
                                 routeCallback.Method = string.Empty;
                                 routeCallback.Authentication = authentication;
 
-                                routeCallback.RouteParts = routeCallback.Route.Split('/');
+                                // The Trim fixes routes with a trailing slash from failing
+                                routeCallback.RouteParts = routeCallback.Route.Trim('/').Split('/');
                                 if (routeCallback.Route.Contains("{"))
                                 {
                                     var routeParams = new ArrayList();
@@ -230,8 +251,8 @@ namespace CCSWE.nanoFramework.WebServer
                                     routeCallback.RouteParamsIndexes = (int[])routeParams.ToArray(typeof(int));
                                 }
 
-                                routeCallback.Callback = func;
-                                foreach (var otherattrib in attributes)
+                                routeCallback.Callback = method;
+                                foreach (var otherattrib in methodAttributes)
                                 {
                                     if (typeof(MethodAttribute) == otherattrib.GetType())
                                     {
@@ -251,20 +272,15 @@ namespace CCSWE.nanoFramework.WebServer
 
                                 _callbackRoutes.Add(routeCallback);
                                 _logger.LogTrace($"{routeCallback.Callback.Name}, {routeCallback.Route}, {routeCallback.Method}, {routeCallback.CaseSensitive}");
-                               // _logger.LogTrace($"{routeCallback.Callback.Name}, {routeCallback.Route.EscapeForInterpolation()}, {routeCallback.Method}, {routeCallback.CaseSensitive}");
+                                // _logger.LogTrace($"{routeCallback.Callback.Name}, {routeCallback.Route.EscapeForInterpolation()}, {routeCallback.Method}, {routeCallback.CaseSensitive}");
                             }
                         }
                     }
 
                 }
             }
-
-            Protocol = protocol;
-            Port = port;
-            string prefix = Protocol == HttpProtocol.Http ? "http" : "https";
-            _listener = new HttpListener(prefix, port);
-            _logger.LogDebug("Web server started on port " + port.ToString());
         }
+
 
         private Authentication ExtractAuthentication(string strAuth)
         {
@@ -351,7 +367,7 @@ namespace CCSWE.nanoFramework.WebServer
         /// CommandReceived event is triggered when a valid command (plus parameters) is received.
         /// Valid commands are defined in the AllowedCommands property.
         /// </summary>
-        public event GetRequestHandler CommandReceived;
+        public event GetRequestHandler? CommandReceived;
 
         #endregion
 
@@ -400,194 +416,32 @@ namespace CCSWE.nanoFramework.WebServer
         public void Stop()
         {
             _cancel = true;
+            
             Thread.Sleep(100);
-            _serverThread.Abort();
+
+            _serverThread?.Abort();
             _serverThread = null;
+            
             _logger.LogDebug("Stoped server in thread ");
-        }
-
-        /// <summary>
-        /// Output a stream
-        /// </summary>
-        /// <param name="response">the socket stream</param>
-        /// <param name="strResponse">the stream to output</param>
-        public static void OutPutStream(HttpListenerResponse response, string strResponse)
-        {
-            if (response == null)
-            {
-                return;
-            }
-
-            byte[] messageBody = Encoding.UTF8.GetBytes(strResponse);
-            response.ContentLength64 = messageBody.Length;
-            response.OutputStream.Write(messageBody, 0, messageBody.Length);
-        }
-
-        /// <summary>
-        /// Output an HTTP Code and close the connection
-        /// </summary>
-        /// <param name="response">the socket stream</param>
-        /// <param name="code">the http code</param>
-        public static void OutputHttpCode(HttpListenerResponse response, HttpStatusCode code)
-        {
-            if (response == null)
-            {
-                return;
-            }
-
-            // This is needed to force the 200 OK without body to go thru
-            response.ContentLength64 = 0;
-            response.KeepAlive = false;
-            response.StatusCode = (int)code;
-        }
-
-        /// <summary>
-        /// Send file content over HTTP response.
-        /// </summary>
-        /// <param name="response"><see cref="HttpListenerResponse"/> to send the content over.</param>
-        /// <param name="fileName">Name of the file to send over <see cref="HttpListenerResponse"/>.</param>
-        /// <param name="content">Content of the file to send.</param>
-        /// /// <param name="contentType">The type of file, if empty string, then will use auto detection</param>
-        public static void SendFileOverHTTP(HttpListenerResponse response, string fileName, byte[] content, string contentType = "")
-        {
-            contentType = contentType == "" ? GetContentTypeFromFileName(fileName.Substring(fileName.LastIndexOf('.'))) : contentType;
-            response.ContentType = contentType;
-            response.ContentLength64 = content.Length;
-
-            // Now loop to send all the data.
-
-            for (long bytesSent = 0; bytesSent < content.Length;)
-            {
-                // Determines amount of data left
-                long bytesToSend = content.Length - bytesSent;
-                bytesToSend = bytesToSend < MaxSizeBuffer ? bytesToSend : MaxSizeBuffer;
-
-                // Writes data to output stream
-                response.OutputStream.Write(content, (int)bytesSent, (int)bytesToSend);
-
-                // allow some time to physically send the bits. Can be reduce to 10 or even less if not too much other code running in parallel
-
-                // update bytes sent
-                bytesSent += bytesToSend;
-            }
         }
 
         private void StartListener()
         {
             _listener.Start();
+
             while (!_cancel)
             {
-                HttpListenerContext context = _listener.GetContext();
-                if (context == null)
+                var context = _listener.GetContext();
+                if (context is null)
                 {
+                    _logger.LogError($"{nameof(StartListener)}: Context is null. Why?");
                     return;
                 }
 
-                // TODO: This should be a method and I should be passing the context...
-                _threadPool.QueueUserWorkItem(_ =>
-                {
-                    bool isRoute = false;
-                    string rawUrl = context.Request.RawUrl;
-
-                    //This is for handling with transitory or bad requests
-                    if (rawUrl == null)
-                    {
-                        return;
-                    }
-
-
-                    // Variables used only within the "for". They are here for performance reasons
-                    bool mustAuthenticate;
-                    bool isAuthOk;
-                    //
-
-                    foreach (var rt in _callbackRoutes)
-                    {
-                        RouteCallback route = (RouteCallback)rt;
-
-                        if (!IsRouteMatch(route, context, out var callbackParams))
-                            continue;
-
-                        // Starting a new thread to be able to handle a new request in parallel
-                        isRoute = true;
-
-                        // Check auth first
-                        mustAuthenticate = route.Authentication != null && route.Authentication.AuthenticationType != AuthenticationType.None;
-                        isAuthOk = !mustAuthenticate;
-
-                        if (mustAuthenticate)
-                        {
-                            if (route.Authentication.AuthenticationType == AuthenticationType.Basic)
-                            {
-                                var credSite = route.Authentication.Credentials ?? Credential;
-                                var credReq = context.Request.Credentials;
-
-                                isAuthOk = credReq != null
-                                    && credSite.UserName == credReq.UserName
-                                    && credSite.Password == credReq.Password;
-                            }
-                            else if (route.Authentication.AuthenticationType == AuthenticationType.ApiKey)
-                            {
-                                var apikeySite = route.Authentication.ApiKey ?? ApiKey;
-                                var apikeyReq = GetApiKeyFromHeaders(context.Request.Headers);
-
-                                isAuthOk = apikeyReq != null
-                                    && apikeyReq == apikeySite;
-                            }
-                        }
-
-                        if (!isAuthOk)
-                        {
-                            if (route.Authentication != null && route.Authentication.AuthenticationType == AuthenticationType.Basic)
-                            {
-                                context.Response.Headers.Add("WWW-Authenticate", $"Basic realm=\"Access to {route.Route}\"");
-                            }
-
-                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                            context.Response.ContentLength64 = 0;
-                            _logger.LogTrace($"Response code: {context.Response.StatusCode}");
-                            return;
-                        }
-
-                        InvokeRoute(route, callbackParams);
-
-                        if (context.Response != null)
-                        {
-                            _logger.LogTrace($"Response code: {context.Response.StatusCode}");
-                            context.Response.Close();
-                            context.Close();
-                            break;
-                        }
-                    }
-
-                    if (!isRoute)
-                    {
-                        if (CommandReceived != null)
-                        {
-                            // Starting a new thread to be able to handle a new request in parallel
-                            CommandReceived.Invoke(this, new WebServerEventArgs(context));
-                        }
-                        else
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                            context.Response.ContentLength64 = 0;
-                        }
-
-                        // When context has been handed over to WebsocketServer, it will be null at this point
-                        if (context.Response == null)
-                        {
-                            //do nothing this is a websocket that is managed by a websocketserver that is responsible for the context now. 
-                        }
-                        else
-                        {
-                            _logger.LogTrace($"Response code: {context.Response.StatusCode}");
-                            context.Response.Close();
-                            context.Close();
-                        }
-                    }
-                });
+                _threadPool.QueueUserWorkItem(HandleRequest, context);
 
             }
+
             if (_listener.IsListening)
             {
                 _listener.Stop();
@@ -629,56 +483,6 @@ namespace CCSWE.nanoFramework.WebServer
             {
                 _logger.LogDebug("IP:  " + iface.IPv4Address + "/" + iface.IPv4SubnetMask);
             }
-        }
-
-        /// <summary>
-        /// Get the MIME-type for a file name.
-        /// </summary>
-        /// <param name="fileName">File name to get content type for.</param>
-        /// <returns>The MIME-type for the file name.</returns>
-        private static string GetContentTypeFromFileName(string fileName)
-        {
-            // normalize to lower case to speed comparison
-            fileName = fileName.ToLower();
-
-            string contentType = "text/html";
-
-            //determine the type of file for the http header
-            if (fileName == ".cs" ||
-                fileName == ".txt" ||
-                fileName == ".csproj"
-            )
-            {
-                contentType = "text/plain";
-            }
-            else if (fileName == ".jpg" ||
-                fileName == ".bmp" ||
-                fileName == ".jpeg" ||
-                fileName == ".png"
-              )
-            {
-                contentType = "image";
-            }
-            else if (fileName == ".htm" ||
-                fileName == ".html"
-              )
-            {
-                contentType = "text/html";
-            }
-            else if (fileName == ".mp3")
-            {
-                contentType = "audio/mpeg";
-            }
-            else if (fileName == ".css")
-            {
-                contentType = "text/css";
-            }
-            else if (fileName == ".ico")
-            {
-                contentType = "image/x-icon";
-            }
-
-            return contentType;
         }
 
         /// <summary>
@@ -744,5 +548,123 @@ namespace CCSWE.nanoFramework.WebServer
         }
 
         #endregion
+
+
+        // **** REFACTORED BELOW HERE ****
+
+        private void HandleRequest(object? state)
+        {
+            if (state is not HttpListenerContext context)
+            {
+                _logger.LogError($"{nameof(HandleRequest)}: {nameof(state)} was null");
+                return;
+            }
+
+            HandleRequest(context);
+        }
+
+        // TODO: In progress
+        private void HandleRequest(HttpListenerContext context)
+        {
+            bool isRoute = false;
+            string rawUrl = context.Request.RawUrl;
+
+            //This is for handling with transitory or bad requests
+            if (rawUrl == null)
+            {
+                return;
+            }
+
+
+            // Variables used only within the "for". They are here for performance reasons
+            bool mustAuthenticate;
+            bool isAuthOk;
+            //
+
+            foreach (var rt in _callbackRoutes)
+            {
+                RouteCallback route = (RouteCallback)rt;
+
+                if (!IsRouteMatch(route, context, out var callbackParams))
+                    continue;
+
+                // Starting a new thread to be able to handle a new request in parallel
+                isRoute = true;
+
+                // Check auth first
+                mustAuthenticate = route.Authentication != null && route.Authentication.AuthenticationType != AuthenticationType.None;
+                isAuthOk = !mustAuthenticate;
+
+                if (mustAuthenticate)
+                {
+                    if (route.Authentication.AuthenticationType == AuthenticationType.Basic)
+                    {
+                        var credSite = route.Authentication.Credentials ?? Credential;
+                        var credReq = context.Request.Credentials;
+
+                        isAuthOk = credReq != null
+                            && credSite.UserName == credReq.UserName
+                            && credSite.Password == credReq.Password;
+                    }
+                    else if (route.Authentication.AuthenticationType == AuthenticationType.ApiKey)
+                    {
+                        var apikeySite = route.Authentication.ApiKey ?? ApiKey;
+                        var apikeyReq = GetApiKeyFromHeaders(context.Request.Headers);
+
+                        isAuthOk = apikeyReq != null
+                            && apikeyReq == apikeySite;
+                    }
+                }
+
+                if (!isAuthOk)
+                {
+                    if (route.Authentication != null && route.Authentication.AuthenticationType == AuthenticationType.Basic)
+                    {
+                        context.Response.Headers.Add("WWW-Authenticate", $"Basic realm=\"Access to {route.Route}\"");
+                    }
+
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    context.Response.ContentLength64 = 0;
+                    _logger.LogTrace($"Response code: {context.Response.StatusCode}");
+                    return;
+                }
+
+                InvokeRoute(route, callbackParams);
+
+                if (context.Response != null)
+                {
+                    _logger.LogTrace($"Response code: {context.Response.StatusCode}");
+                    context.Response.Close();
+                    context.Close();
+                    break;
+                }
+            }
+
+            if (!isRoute)
+            {
+                if (CommandReceived != null)
+                {
+                    // Starting a new thread to be able to handle a new request in parallel
+                    CommandReceived.Invoke(this, new WebServerEventArgs(context));
+                }
+                else
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    context.Response.ContentLength64 = 0;
+                }
+
+                // When context has been handed over to WebsocketServer, it will be null at this point
+                if (context.Response == null)
+                {
+                    //do nothing this is a websocket that is managed by a websocketserver that is responsible for the context now. 
+                }
+                else
+                {
+                    _logger.LogTrace($"Response code: {context.Response.StatusCode}");
+                    context.Response.Close();
+                    context.Close();
+                }
+            }
+        }
     }
 }
