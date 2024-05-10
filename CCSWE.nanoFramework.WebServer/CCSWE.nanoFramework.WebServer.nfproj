@@ -55,14 +55,16 @@
     <Compile Include="WebServer\Routing\IRouteTemplateProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CCSWE.nanoFramework.Collections.Concurrent">
-      <HintPath>..\packages\CCSWE.nanoFramework.Collections.Concurrent.1.0.4\lib\CCSWE.nanoFramework.Collections.Concurrent.dll</HintPath>
+    <Reference Include="CCSWE.nanoFramework.Collections.Concurrent, Version=1.0.5.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CCSWE.nanoFramework.Collections.Concurrent.1.0.5\lib\CCSWE.nanoFramework.Collections.Concurrent.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="CCSWE.nanoFramework.Core">
-      <HintPath>..\packages\CCSWE.nanoFramework.Core.1.0.3\lib\CCSWE.nanoFramework.Core.dll</HintPath>
+    <Reference Include="CCSWE.nanoFramework.Core, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CCSWE.nanoFramework.Core.1.0.4\lib\CCSWE.nanoFramework.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="CCSWE.nanoFramework.Threading, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\CCSWE.nanoFramework.Threading.1.0.8\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
+    <Reference Include="CCSWE.nanoFramework.Threading, Version=1.0.9.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CCSWE.nanoFramework.Threading.1.0.9\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib">
@@ -74,8 +76,9 @@
     <Reference Include="nanoFramework.Json">
       <HintPath>..\packages\nanoFramework.Json.2.2.117\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.Logging">
-      <HintPath>..\packages\nanoFramework.Logging.1.1.94\lib\nanoFramework.Logging.dll</HintPath>
+    <Reference Include="nanoFramework.Logging, Version=1.1.96.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.Logging.1.1.96\lib\nanoFramework.Logging.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.11.18.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.18\lib\nanoFramework.Runtime.Events.dll</HintPath>
@@ -93,8 +96,9 @@
     <Reference Include="System.Net">
       <HintPath>..\packages\nanoFramework.System.Net.1.10.77\lib\System.Net.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>..\packages\nanoFramework.System.Net.Http.1.5.134\lib\System.Net.Http.dll</HintPath>
+    <Reference Include="System.Net.Http, Version=1.5.136.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Net.Http.1.5.136\lib\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Threading">
       <HintPath>..\packages\nanoFramework.System.Threading.1.1.32\lib\System.Threading.dll</HintPath>
