@@ -16,9 +16,9 @@
       },
       "CCSWE.nanoFramework.Threading": {
         "type": "Direct",
-        "requested": "[1.0.10, 1.0.10]",
-        "resolved": "1.0.10",
-        "contentHash": "tCU6SnncQk8yL1x8qf1Z77jBpTQNC65Qcnp2XH+hvhce4FqVYqYQ6Lxw7ccuvclxejV6mChXsVinwuADVosA+A=="
+        "requested": "[1.0.11, 1.0.11]",
+        "resolved": "1.0.11",
+        "contentHash": "BvGk8mes7YCjtCb24neQX7/kLX6xoiX5Mv1oKRhlvypdJeStuZgTGVAWO+m3wRx52ZZxmevkB8XsVzkp8Atq1w=="
       },
       "nanoFramework.CoreLibrary": {
         "type": "Direct",
@@ -40,9 +40,9 @@
       },
       "nanoFramework.Logging": {
         "type": "Direct",
-        "requested": "[1.1.96, 1.1.96]",
-        "resolved": "1.1.96",
-        "contentHash": "CX6TAA/ax6T/Vl77BYak7DHx1MIBM2IezffJAcwG1lwiyOt2oaMcVHOL0SvW23wDHl/kXyXD4JT3I23Ow7F9EA=="
+        "requested": "[1.1.98, 1.1.98]",
+        "resolved": "1.1.98",
+        "contentHash": "iwHPePe2iuDevlfI19vCMxpoH8T4OBBK4oPOCw4B9NisvTw/ID4XG28BTfBnmNlhMkbl80wG4kXjH+7nlfSpSw=="
       },
       "nanoFramework.Runtime.Events": {
         "type": "Direct",
@@ -64,15 +64,15 @@
       },
       "nanoFramework.System.Net": {
         "type": "Direct",
-        "requested": "[1.10.77, 1.10.77]",
-        "resolved": "1.10.77",
-        "contentHash": "d/zIQqt0Y4e49tmtc2sfluE3DQa3w6hj3DHXVt5B+R2onytIJaKzJy8k8qYVyVy+EQLhdruyvcHSTIaygZrUzQ=="
+        "requested": "[1.10.79, 1.10.79]",
+        "resolved": "1.10.79",
+        "contentHash": "FdQQDEUsudwSTc7NErfC2NxUubfHG3IwIHJUSIXToWSDBT5T1ijBk/uuZV6Efuzy4xh81kpvPdnXpv6s6LYoCg=="
       },
       "nanoFramework.System.Net.Http": {
         "type": "Direct",
-        "requested": "[1.5.136, 1.5.136]",
-        "resolved": "1.5.136",
-        "contentHash": "w2D2ggBMooIYgluiZQKP87KPjN8/CV5qTZuFkAOfiutBek0DqqeU0IJq8yi4+fYD/ke4UkKaRIXKWwJE0YMn7A=="
+        "requested": "[1.5.138, 1.5.138]",
+        "resolved": "1.5.138",
+        "contentHash": "Oah5dv7M8nHAt/3Y2Fg4vJrALiQNt9UJ6PJDlMMHV0Q7FRmdyrpYc4xUTGHgh2p2iJkKbJanzXzZXvf75ESKYA=="
       },
       "nanoFramework.System.Text": {
         "type": "Direct",
