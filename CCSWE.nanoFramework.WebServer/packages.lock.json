@@ -10,15 +10,15 @@
       },
       "CCSWE.nanoFramework.Core": {
         "type": "Direct",
-        "requested": "[1.0.12, 1.0.12]",
-        "resolved": "1.0.12",
-        "contentHash": "PPD+5hPMClJWvXrP2FYJyLkvzyJ/kh9eNJN4vueem9sJx1KtK2FCbUy4woz470U6MS/Fr2QIUUhWdR1Igk0hng=="
+        "requested": "[1.0.13, 1.0.13]",
+        "resolved": "1.0.13",
+        "contentHash": "6fOGhbSmuSSokaUEMpSYHIsbxbT58IeFQFnXRISflq95VqL2xCOxfFqQ5Hw8Ktkvb/zlboxpBsL4jPtyVWXUZQ=="
       },
       "CCSWE.nanoFramework.Threading": {
         "type": "Direct",
-        "requested": "[1.0.15, 1.0.15]",
-        "resolved": "1.0.15",
-        "contentHash": "hQp6ouxumTzg/4bUBCT878smUDHtpYQb/KAi8ysmlU9yUiNPJm8CNiDBesPbNW9xUpt9y+rsijKzayPQiL+bcw=="
+        "requested": "[1.0.16, 1.0.16]",
+        "resolved": "1.0.16",
+        "contentHash": "JEfOPxrdLgrdLLIvBumHWC25sO9OKH+4WTGltUFgXPVpiAu0UwKjWudCuU7414MAh7GkDOB2mG1NSaHnsYxvPw=="
       },
       "nanoFramework.CoreLibrary": {
         "type": "Direct",
