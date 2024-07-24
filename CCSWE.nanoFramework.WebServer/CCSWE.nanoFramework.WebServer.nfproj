@@ -56,14 +56,14 @@
     <Compile Include="WebServer\Routing\IRouteTemplateProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CCSWE.nanoFramework.Collections.Concurrent, Version=1.0.22.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\CCSWE.nanoFramework.Collections.Concurrent.1.0.22\lib\CCSWE.nanoFramework.Collections.Concurrent.dll</HintPath>
+    <Reference Include="CCSWE.nanoFramework.Collections.Concurrent, Version=1.0.23.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CCSWE.nanoFramework.Collections.Concurrent.1.0.23\lib\CCSWE.nanoFramework.Collections.Concurrent.dll</HintPath>
     </Reference>
-    <Reference Include="CCSWE.nanoFramework.Core, Version=1.0.24.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\CCSWE.nanoFramework.Core.1.0.24\lib\CCSWE.nanoFramework.Core.dll</HintPath>
+    <Reference Include="CCSWE.nanoFramework.Core, Version=1.0.25.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CCSWE.nanoFramework.Core.1.0.25\lib\CCSWE.nanoFramework.Core.dll</HintPath>
     </Reference>
-    <Reference Include="CCSWE.nanoFramework.Threading, Version=1.0.34.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\CCSWE.nanoFramework.Threading.1.0.34\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
+    <Reference Include="CCSWE.nanoFramework.Threading, Version=1.0.35.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\CCSWE.nanoFramework.Threading.1.0.35\lib\CCSWE.nanoFramework.Threading.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
@@ -74,8 +74,8 @@
     <Reference Include="nanoFramework.Json, Version=2.2.122.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Json.2.2.122\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.Logging, Version=1.1.100.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Logging.1.1.100\lib\nanoFramework.Logging.dll</HintPath>
+    <Reference Include="nanoFramework.Logging, Version=1.1.107.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.Logging.1.1.107\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.11.18.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.18\lib\nanoFramework.Runtime.Events.dll</HintPath>
